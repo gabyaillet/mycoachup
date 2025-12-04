@@ -251,12 +251,12 @@ a:focus {
 /* --- SECTION QUI SUIS-JE --- */
 
 .qui-suis-je-title {
-    grid-row: 78 / 78;
+    grid-row: 72 / 72;
 }
 
 .a_propos_text {
     grid-column: 5 / 21;
-    grid-row: 79/95;
+    grid-row: 73/90;
     padding: 20px;
     font-size: 1.1rem;
     line-height: 1.6;
@@ -268,7 +268,7 @@ a:focus {
 
 .footer-actions {
     grid-column: 1 / 25;
-    grid-row: 95 / 100;
+    grid-row: 86 / 100;
     display: flex;
     justify-content: center; 
     align-items: center;
