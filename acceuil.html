@@ -1,64 +1,236 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceuil</title>
-    <link rel="stylesheet" href="css/acceuil.css">
+    <title>My Coach Up - Accueil</title>
+    <style>
+        /* --- 1. BASE ET SCALABILITÉ --- */
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Segoe UI', Roboto, sans-serif; overflow-x: hidden; }
+        html { scroll-behavior: smooth; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+        /* --- 2. STRUCTURE GRID FLEXIBLE --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            /* Important : auto permet aux lignes de grandir avec le texte */
+            grid-template-rows: auto; 
+            width: 100%;
+        }
+
+        /* --- 3. NAVIGATION RESPONSIVE --- */
+        .sous_top {
+            grid-column: 1 / 25;
+            background-color: rgba(0, 0, 50, 0.9);
+            color: white;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+            padding: 10px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            grid-row: 1 / 2;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo img { height: 50px; width: auto; }
+
+        /* Bouton Menu Mobile */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .menu-toggle span { width: 25px; height: 3px; background: white; }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+        }
+
+        .nav-menu li:hover { color: rgb(252, 135, 2); }
+
+        .auth-link {
+            list-style: none;
+            background: rgb(252, 135, 2);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* --- 4. SECTION PHOTO / HERO --- */
+        .photo {
+            grid-column: 1 / 25;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url("image/d.jpg") center/cover no-repeat;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .main-title { font-size: clamp(1.8rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 30px; }
+        .key-features { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; font-size: 1.2rem; }
+
+        /* --- 5. SECTIONS TEXTE (ANTI-CHEVAUCHEMENT) --- */
+        .section-title {
+            grid-column: 2 / 24;
+            text-align: center;
+            padding: 60px 0 20px;
+            color: rgb(0, 0, 50);
+        }
+
+        .perso_text {
+            grid-column: 4 / 22;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding-bottom: 60px;
+        }
+
+        .feature-block {
+            border-left: 5px solid rgb(252, 135, 2);
+            padding: 10px 20px;
+            height: auto; /* S'adapte au texte */
+        }
+
+        .feature-title { font-size: 1.5rem; margin-bottom: 10px; color: rgb(0, 0, 50); }
+        .feature-description { font-size: 1.1rem; color: #444; margin: 0; }
+
+        .a_propos_text {
+            grid-column: 5 / 21;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            padding: 20px;
+            color: #333;
+        }
+
+        .footer-actions {
+            grid-column: 1 / 25;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 80px 20px;
+        }
+
+        .btn { padding: 15px 35px; border-radius: 5px; font-weight: bold; text-transform: uppercase; }
+        .btn-primary { background: rgb(252, 135, 2); color: white; }
+        .btn-secondary { border: 2px solid rgb(0, 0, 50); color: rgb(0, 0, 50); }
+
+        /* --- 6. MEDIA QUERIES (CHANGEMENT DE TAILLE) --- */
+        
+        /* Version Mobile et Tablette */
+        @media screen and (max-width: 1024px) {
+            .menu-toggle { display: flex; }
+            
+            .nav-menu {
+                display: none; /* Masqué pour le burger */
+                flex-direction: column;
+                position: absolute;
+                top: 70px; left: 0; width: 100%;
+                background: rgb(0, 0, 50);
+                padding: 30px;
+                text-align: center;
+            }
+            .nav-menu.active { display: flex; }
+            .auth-link { display: none; } /* On cache le bouton latéral */
+
+            .perso_text, .a_propos_text, .section-title {
+                grid-column: 2 / 24; /* On utilise toute la largeur */
+            }
+        }
+
+        /* Version Ordinateur (On rétablit votre design spécifique) */
+        @media screen and (min-width: 1025px) {
+            .grid {
+                grid-template-rows: repeat(100, 1fr);
+                height: 250vh;
+            }
+            .photo { grid-row: 1 / 41; }
+            .section-title:not(.qui-suis-je-title) { grid-row: 42 / 46; }
+            .perso_text { grid-row: 47 / 72; }
+            .qui-suis-je-title { grid-row: 74 / 78; }
+            .a_propos_text { grid-row: 78 / 90; }
+            .footer-actions { grid-row: 92 / 98; }
+        }
+    </style>
 </head>
 <body id="top">
+
     <div class="grid">
-        
-        <div class="sous_top">
+        <nav class="sous_top">
             <div class="nav-inner">
                 <div class="logo">
-                    <a href="index.html"><img src="image/image-removebg-preview(15).png"></a>
+                    <a href="index.html"><img src="image/image-removebg-preview(15).png" alt="Logo"></a>
                 </div>
+
+                <div class="menu-toggle" id="mobile-menu">
+                    <span></span><span></span><span></span>
+                </div>
+
                 <ul class="nav-menu">
                     <li><a href="programmes2.html">PROGRAMMES</a></li>
                     <li><a href="programme.html">EXERCICES</a></li>
-                    <li><a href="#">COMMUNOTE</a></li>
-                    <li><a href="#">COACH</a></li>
+                    <li><a href="#">COMMUNAUTÉ</a></li>
+                    <li><a href="coach.html">COACH</a></li>
                 </ul>
+
                 <ul class="auth-link">
-                    <li><a href="connection.html"> SE CONNECTER </a></li>
+                    <li><a href="connection.html" style="color: white;">SE CONNECTER</a></li>
                 </ul>
             </div>
-        </div>
-        
-        <div class="photo">
+        </nav>
+
+        <header class="photo">
             <div class="hero-content">
                 <h1 class="main-title">TRANSFORMEZ VOTRE POTENTIEL.<br> VOTRE PROCHAINE ÉTAPE. COMMENCEZ ICI.</h1>
-                
                 <ul class="key-features">
-                    <li>Entraînement individualisé</li>
-                    <li>Communauté de passionnés</li>
-                    <li>Accompagnement humain</li>
+                    <li>✓ Entraînement individualisé</li>
+                    <li>✓ Communauté de passionnés</li>
+                    <li>✓ Accompagnement humain</li>
                 </ul>
             </div>
-        </div>
+        </header>
 
         <div class="section-title">
             <h2>C'EST QUOI MY COACH UP</h2>
         </div>
         
         <div class="perso_text">
-            
             <div class="feature-block">
-                <h2 class="feature-title">ENTRAÎNEMENTS<br>INDIVIDUALISÉS</h2>
+                <h2 class="feature-title">ENTRAÎNEMENTS INDIVIDUALISÉS</h2>
                 <p class="feature-description">Un programme d'entraînement sur-mesure, customisable, qui s'adapte à ta progression en temps réel.</p>
             </div>
-
             <div class="feature-block">
                 <h2 class="feature-title">COACHS EXPERTS</h2>
-                <p class="feature-description">Les entraînements et l'accompagnement sont pensés et réalisés par des experts running de la team Coach up.</p>
+                <p class="feature-description">Les entraînements et l'accompagnement sont pensés et réalisés par des experts de la team Coach up.</p>
             </div>
-
             <div class="feature-block">
-                <h2 class="feature-title">COMMUNAUTÉ<br>DE PASSIONNÉS</h2>
-                <p class="feature-description">Une communauté ultra bienveillante qui te proposera des sorties en groupe...</p>
+                <h2 class="feature-title">COMMUNAUTÉ DE PASSIONNÉS</h2>
+                <p class="feature-description">Une communauté ultra bienveillante qui te proposera des sorties en groupe et du soutien au quotidien.</p>
             </div>
-
         </div>
 
         <div class="section-title qui-suis-je-title">
@@ -66,15 +238,34 @@
         </div>
         
         <div class="a_propos_text">
-            <p>Bonjour ! Je m'appelle Jules Dumas et je suis le fondateur de My Coach Up. Fort de mes plusieurs années d'expérience en sport, ma mission est de vous fournir un coaching personnalisé, adapté à votre rythme et à vos ambitions. Que vous soyez débutant ou athlète confirmé, mon approche repose sur la bienveillance, la science du sport et l'atteinte de vos objectifs les plus ambitieux. Ensemble, nous allons transformer votre potentiel en résultats concrets.</p>
-            <p>Contactez-moi pour commencer votre transformation aujourd'hui !</p>
+            <p>Bonjour ! Je m'appelle <strong>Jules Dumas</strong> et je suis le fondateur de My Coach Up. Fort de plusieurs années d'expérience, ma mission est de vous fournir un coaching personnalisé, adapté à votre rythme et à vos ambitions.</p>
+            <p>Ensemble, nous allons transformer votre potentiel en résultats concrets.</p>
         </div>
 
         <div class="footer-actions">
             <a href="#top" class="btn btn-primary">RETOUR EN HAUT</a>
             <a href="mailto:votre.email@exemple.com" class="btn btn-secondary">CONTACTEZ-MOI</a>
         </div>
-        
     </div>
+
+    <script>
+        // Gestion du menu burger mobile
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            
+            // Animation simple des barres
+            const spans = menuToggle.querySelectorAll('span');
+            if(navMenu.classList.contains('active')) {
+                spans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
+                spans[1].style.opacity = "0";
+                spans[2].style.transform = "rotate(-45deg) translate(6px, -7px)";
+            } else {
+                spans.forEach(s => { s.style.transform = "none"; s.style.opacity = "1"; });
+            }
+        });
+    </script>
 </body>
 </html>
