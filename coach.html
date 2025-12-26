@@ -11,7 +11,7 @@
         html { scroll-behavior: smooth; }
         a { text-decoration: none; transition: 0.3s; }
 
-        /* --- 2. NAVIGATION (STRICTEMENT IDENTIQUE) --- */
+        /* --- 2. NAVIGATION --- */
         .sous_top {
             background-color: rgba(0, 0, 50, 0.9);
             color: white;
@@ -36,11 +36,13 @@
 
         .logo img { height: 50px; width: auto; }
 
+        /* Le menu burger (caché sur PC) */
         .menu-toggle {
-            display: none;
+            display: none; /* Caché par défaut */
             flex-direction: column;
             gap: 5px;
             cursor: pointer;
+            z-index: 1100;
         }
         .menu-toggle span { width: 25px; height: 3px; background: white; transition: 0.3s; }
 
@@ -81,27 +83,18 @@
             gap: 50px;
         }
 
-        /* Inversion pour la deuxième section */
-        .section-coach.reverse {
-            flex-direction: row-reverse;
-        }
+        .section-coach.reverse { flex-direction: row-reverse; }
 
-        .coach-image {
-            flex: 1;
-        }
-
+        .coach-image { flex: 1; }
         .coach-image img {
             width: 100%;
             height: auto;
-            border-radius: 20px; /* Demandé */
+            border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             display: block;
         }
 
-        .coach-text {
-            flex: 1;
-        }
-
+        .coach-text { flex: 1; }
         .coach-text h2 {
             color: rgb(0, 0, 50);
             font-size: 2rem;
@@ -118,25 +111,22 @@
             margin-top: 10px;
         }
 
-        .coach-text p {
-            font-size: 1.1rem;
-            color: #444;
-            line-height: 1.8;
-        }
+        .coach-text p { font-size: 1.1rem; color: #444; line-height: 1.8; }
 
-        /* --- 4. RESPONSIVE --- */
+        /* --- 4. RESPONSIVE (C'EST ICI QUE CA SE PASSE) --- */
         @media screen and (max-width: 900px) {
-            .section-coach, .section-coach.reverse {
-                flex-direction: column;
-                text-align: center;
-                gap: 30px;
+            
+            /* 1. ON CACHE LE BOUTON SE CONNECTER */
+            .auth-link { 
+                display: none !important; 
             }
 
-            .coach-text h2::after {
-                margin: 10px auto;
+            /* 2. ON AFFICHE LE BURGER */
+            .menu-toggle { 
+                display: flex; 
             }
 
-            .menu-toggle { display: flex; }
+            /* 3. STYLE DU MENU QUAND IL EST OUVERT */
             .nav-menu {
                 display: none;
                 flex-direction: column;
@@ -144,9 +134,16 @@
                 top: 70px; left: 0; width: 100%;
                 background: rgba(0, 0, 50, 0.95);
                 padding: 30px;
+                text-align: center;
             }
             .nav-menu.active { display: flex; }
-            .auth-link { display: none; }
+
+            .section-coach, .section-coach.reverse {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+            .coach-text h2::after { margin: 10px auto; }
         }
     </style>
 </head>
@@ -157,15 +154,18 @@
             <div class="logo">
                 <a href="acceuil.html"><img src="image/image-removebg-preview(15).png" alt="Logo"></a>
             </div>
+
             <div class="menu-toggle" id="mobile-menu">
                 <span></span><span></span><span></span>
             </div>
+
             <ul class="nav-menu">
                 <li><a href="programmes2.html">PROGRAMMES</a></li>
                 <li><a href="programme.html">EXERCICES</a></li>
                 <li><a href="#">COMMUNAUTÉ</a></li>
                 <li><a href="coach.html">COACH</a></li>
             </ul>
+
             <ul class="auth-link">
                 <li><a href="connection.html">SE CONNECTER</a></li>
             </ul>
@@ -173,50 +173,32 @@
     </nav>
 
     <main class="coach-container">
-        
         <section class="section-coach">
             <div class="coach-image">
-                <img src="image/d.jpg" alt="Jules Dumas en action">
+                <img src="image/d.jpg" alt="Coach">
             </div>
             <div class="coach-text">
                 <h2>MON EXPÉRIENCE</h2>
-                <p>
-                   texte, il faudrait des photos de toi en action, en train de coacher, de faire du sport, etc... en vrai plus il y en a mieux c'est je pense 
-                </p>
-                <p>
-                   texte
-                </p>
+                <p>Votre texte ici...</p>
             </div>
         </section>
-
-        <section class="section-coach reverse">
-            <div class="coach-image">
-                <img src="image/d.jpg" alt="Formation Coaching">
-            </div>
-            <div class="coach-text">
-                <h2>MA MÉTHODOLOGIE / MON SPORT</h2>
-                <p>
-                    texte
-                </p>
-                <p>
-                   texte
-                </p>
-            </div>
-        </section>
-
     </main>
 
     <script>
         const menuToggle = document.getElementById('mobile-menu');
         const navMenu = document.querySelector('.nav-menu');
+
         menuToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
             const spans = menuToggle.querySelectorAll('span');
+            
             if(navMenu.classList.contains('active')) {
+                // Animation Croix
                 spans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
                 spans[1].style.opacity = "0";
                 spans[2].style.transform = "rotate(-45deg) translate(6px, -7px)";
             } else {
+                // Retour au Burger
                 spans.forEach(s => { s.style.transform = "none"; s.style.opacity = "1"; });
             }
         });

@@ -19,7 +19,7 @@
             width: 100%;
         }
 
-        /* --- 3. NAVIGATION --- */
+        /* --- 3. NAVIGATION (HARMONISÉE AVEC PAGE PROGRAMME) --- */
         .sous_top {
             grid-column: 1 / 25;
             background-color: rgba(0, 0, 50, 0.9);
@@ -45,6 +45,15 @@
 
         .logo img { height: 50px; width: auto; }
 
+        /* MENU BURGER (Ajouté) */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .menu-toggle span { width: 25px; height: 3px; background: white; transition: 0.3s; }
+
         .nav-menu {
             list-style: none;
             display: flex;
@@ -53,18 +62,20 @@
             padding: 0;
             font-weight: bold;
         }
-
+        .nav-menu a { color: white; }
         .nav-menu li:hover { color: rgb(252, 135, 2); }
 
         .auth-link {
             list-style: none;
-            background:  rgb(252, 135, 2);
+            background: rgb(252, 135, 2);
             padding: 8px 18px;
             border-radius: 20px;
             font-weight: bold;
+            margin: 0;
         }
+        .auth-link a { color: white !important; }
 
-        /* --- 4. SECTION DASHBOARD (Planning, Agenda, Chat) --- */
+        /* --- 4. SECTION DASHBOARD --- */
         .dashboard-container {
             grid-column: 2 / 24;
             display: grid;
@@ -94,38 +105,35 @@
             gap: 10px;
         }
 
-        /* Styles Planning (Gauche) */
-        .task-list { list-style: none; padding: 0; margin: 0; }
-        .task-list li { padding: 15px 0; border-bottom: 1px solid #f9f9f9; font-size: 0.95rem; color: #444; }
-        .task-list li strong { color: rgb(0, 0, 50); }
-        .task-list li.done { text-decoration: line-through; opacity: 0.5; }
-        .task-list li.next { color: rgb(252, 135, 2); font-weight: bold; border-left: 3px solid rgb(252, 135, 2); padding-left: 10px; }
-
-        /* Styles Agenda (Milieu) */
-        .calendar-header { font-weight: bold; color: rgb(252, 135, 2); text-align: center; margin-bottom: 15px; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; }
-        .calendar-grid span { padding: 10px 5px; background: #f8f9fa; border-radius: 8px; font-size: 0.8rem; cursor: pointer; }
-        .calendar-grid span:hover { background: #e9ecef; }
-        .calendar-grid span.today { background: rgb(0, 0, 50); color: white; font-weight: bold; }
-        .calendar-grid span.event { border: 2px solid rgb(252, 135, 2); position: relative; }
-
-        /* Styles Chat (Droite) */
+        /* Styles Chat */
         .chat-messages { flex: 1; background: #fafafa; border-radius: 10px; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
         .message { padding: 10px 14px; border-radius: 15px; font-size: 0.9rem; max-width: 85%; line-height: 1.4; }
-        .message.coach { background: #e9ecef; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
         .message.user { background: rgb(252, 135, 2); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
         .chat-input-area { display: flex; gap: 8px; }
         .chat-input-area input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
         .chat-input-area button { background: rgb(0, 0, 50); color: white; border: none; padding: 0 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
-        /* --- 5. RESPONSIVE --- */
+        /* --- 5. RESPONSIVE (Strictement identique à Programme) --- */
         @media screen and (max-width: 1024px) {
+            .menu-toggle { display: flex; }
+            
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px; left: 0; width: 100%;
+                background: rgb(0, 0, 50); 
+                padding: 30px;
+                text-align: center;
+                z-index: 1000;
+            }
+            .nav-menu.active { display: flex; }
+            .auth-link { display: none; }
+
             .dashboard-container {
                 grid-template-columns: 1fr;
                 grid-column: 2 / 24;
             }
-            .panel { min-height: auto; }
-            .nav-menu { display: none; }
         }
     </style>
 </head>
@@ -137,55 +145,67 @@
                 <div class="logo">
                     <a href="index.html"><img src="image/image-removebg-preview(15).png" alt="Logo"></a>
                 </div>
+
+                <div class="menu-toggle" id="mobile-menu">
+                    <span></span><span></span><span></span>
+                </div>
+
                 <ul class="nav-menu">
                     <li><a href="programmes2.html">PROGRAMMES</a></li>
                     <li><a href="programme.html">EXERCICES</a></li>
                     <li><a href="#">COMMUNAUTÉ</a></li>
                     <li><a href="coach.html">COACH</a></li>
                 </ul>
+
                 <ul class="auth-link">
-                    <li><a href="connection.html" style="color: white;">MON COMPTE</a></li>
+                    <li><a href="connection.html">MON COMPTE</a></li>
                 </ul>
             </div>
         </nav>
 
         <main class="dashboard-container">
-            
             <section class="panel">
                 <h3> Planning du Jour</h3>
-                <ul class="task-list">
-                    cette page c'est quand on serz connecter en tant que utilisateur, ici il aura les séances du jour. pour l'instant on y accede par la page d'acceuil mais après ca sera quand on sera coonecté c'est pour que tu puisse la voir 
-                </ul>
+                <p style="font-size: 0.9rem; color: #666;">Ici s'affichera les séances</p>
             </section>
 
             <section class="panel">
                 <h3>Planning</h3>
-                <div class="calendar-header">programme du mois de ...</div>
-                <div class="calendar-grid">         
-                    il faut une base de donné pour créer un calendrier dynamique et les dialogues pour l'instant je ne sais faire que la connexion inscription en base de donné, on le trvaille en se moment en cour je le fais des que j'ai fini
-
-                </div>
+                <div style="text-align:center; padding: 20px; color: #888;">Calendrier juste je suis en train de faire la base de données</div>
             </section>
 
             <section class="panel">
                 <h3>Coach</h3>
-                <div class="chat-messages" id="chatMessages">
-                    
-                </div>
+                <div class="chat-messages" id="chatMessages"></div>
                 <div class="chat-input-area">
                     <input type="text" id="userInput" placeholder="Message...">
-                    <button onclick="sendMessage()">envoyer</button>
+                    <button onclick="sendMessage()">Envoyer</button>
                 </div>
             </section>
-
         </main>
     </div>
 
     <script>
+        // Menu Burger
+        const menuToggle = document.getElementById('mobile-menu');
+        const navMenu = document.querySelector('.nav-menu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            const spans = menuToggle.querySelectorAll('span');
+            if(navMenu.classList.contains('active')) {
+                spans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
+                spans[1].style.opacity = "0";
+                spans[2].style.transform = "rotate(-45deg) translate(6px, -7px)";
+            } else {
+                spans.forEach(s => { s.style.transform = "none"; s.style.opacity = "1"; });
+            }
+        });
+
+        // Chat
         function sendMessage() {
             const input = document.getElementById('userInput');
             const container = document.getElementById('chatMessages');
-            
             if (input.value.trim() !== "") {
                 const newMsg = document.createElement('div');
                 newMsg.className = 'message user';
@@ -196,25 +216,5 @@
             }
         }
     </script>
-    <script>
-        // Gestion du menu burger mobile
-        const menuToggle = document.getElementById('mobile-menu');
-        const navMenu = document.querySelector('.nav-menu');
-
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            
-            // Animation simple des barres
-            const spans = menuToggle.querySelectorAll('span');
-            if(navMenu.classList.contains('active')) {
-                spans[0].style.transform = "rotate(45deg) translate(5px, 5px)";
-                spans[1].style.opacity = "0";
-                spans[2].style.transform = "rotate(-45deg) translate(6px, -7px)";
-            } else {
-                spans.forEach(s => { s.style.transform = "none"; s.style.opacity = "1"; });
-            }
-        });
-    </script>
-
 </body>
 </html>
